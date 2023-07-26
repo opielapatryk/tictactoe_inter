@@ -1,33 +1,27 @@
 import tkinter as tk 
-class Game(tk.Tk):
-    def __init__(self):
-        super().__init__()
-        self.cells = {}
-        self.createBoard()
-        self.createBoardGrid()
 
-    def createBoard(self):
-        frame = tk.Frame(master=self)
-        label = tk.Label(master=frame, text="Reaaaady?")
-        frame.pack()
-        label.pack()
+players = ["x", "o", "x", "o", "x", "o", "x", "o", "x"]
+previous_moves = []
 
-    def createBoardGrid(self):
-        grid_frame = tk.Frame(master=self)
-        grid_frame.pack()
-        for row in range(3):
-            self.rowconfigure(row, weight=1, minsize=50)
-            self.columnconfigure(row, weight=1, minsize=50)
-            for col in range(3):
-                button = tk.Button(master=grid_frame,text="")
-                self.cells[button] = (row,col)
-                button.grid(row=row,column=col,padx=5,pady=5,sticky="nsew")
+def show_msg(row, col):
+    global previous_moves
+    button = buttons[row][col]
+    if (row,col) not in previous_moves:
+        previous_moves.append((row, col))
+    print(list(previous_moves))
+    button["text"] = players[len(previous_moves) - 1]
 
+frame = tk.Tk()
+buttons = []
 
+for row in range(3):
+    frame.columnconfigure(row, weight=1, minsize=75)
+    frame.rowconfigure(row, weight=1, minsize=50)
+    row_buttons = []
+    for col in range(3):
+        button = tk.Button(master=frame, text="", width=10, height=5, command=lambda r=row, c=col: show_msg(r, c))
+        button.grid(row=row, column=col, sticky="nsew")
+        row_buttons.append(button)
+    buttons.append(row_buttons)
 
-def main():
-    game = Game()
-    game.mainloop()
-
-if __name__ == "__main__":
-    main()
+frame.mainloop()
