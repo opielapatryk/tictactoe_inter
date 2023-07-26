@@ -1,15 +1,23 @@
 import tkinter as tk 
 
-players = ["x", "o", "x", "o", "x", "o", "x", "o", "x"]
+player = "x"
 previous_moves = []
 
 def show_msg(row, col):
     global previous_moves
+    global player
     button = buttons[row][col]
-    if (row,col) not in previous_moves:
+    if (row, col) not in previous_moves:
         previous_moves.append((row, col))
-    print(list(previous_moves))
-    button["text"] = players[len(previous_moves) - 1]
+        button["text"] = player
+        if player == "x":
+            player = "o"
+        else:
+            player = "x"
+        print(list(previous_moves))
+        
+    
+
 
 frame = tk.Tk()
 buttons = []
